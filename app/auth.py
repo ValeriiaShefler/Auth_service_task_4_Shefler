@@ -1,4 +1,5 @@
-from jose import JWTError, jwt
+from jose import jwt
+from jose.exceptions import JWTError
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from typing import Optional, Dict, Any
@@ -36,7 +37,12 @@ def create_refresh_token(data: Dict[str, Any]) -> tuple[str, str]:
 #декодирование и валидация токена
 def decode_token(token: str) -> Optional[Dict[str, Any]]:
     try:
+        if not isinstance(token, str):
+            print(f"Error: token is not a string, it's {type(token)}")
+            return None
+        
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT decode error: {e}")
         return None
