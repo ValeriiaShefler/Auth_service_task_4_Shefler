@@ -36,11 +36,7 @@ def create_refresh_token(data: Dict[str, Any]) -> tuple[str, str]:
 
 #декодирование и валидация токена
 def decode_token(token: str) -> Optional[Dict[str, Any]]:
-    try:
-        if not isinstance(token, str):
-            print(f"Error: token is not a string, it's {type(token)}")
-            return None
-        
+    try:       
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
     except JWTError as e:
