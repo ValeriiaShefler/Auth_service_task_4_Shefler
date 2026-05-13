@@ -127,7 +127,8 @@ async def refresh_token(
     db: Session = Depends(get_db)
 ):
     #Обновление access токена (принимает refresh токен ТОЛЬКО из тела запроса (игнорирует cookies)
-    
+    refresh_token = refresh_data.refresh_token
+
     #валидируем refresh токен
     payload = decode_token(refresh_token)
     if payload is None:
